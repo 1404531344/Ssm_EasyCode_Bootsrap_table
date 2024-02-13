@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap 101 Template</title>
+    <!--"/Ssm_Boootstrap_table_Demo_war_exploded" 为Tomact部署环境-->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-table.min.css">
+
+
+</head>
+<body>
+<h1>你好，世界！</h1>
+
+<!--表格-->
+<button class="btn-primary">按钮</button>
+
+<table id="mytable" class="table table-dark"></table>
+
+
+<!--删除按钮-->
+<!--<form action="/Ssm_EasyCode_Bootsrap_table_war/student/deleteById" method="GET">-->
+<!--     <input type="text" name="sid" value=""> &lt;!&ndash; Replace 1 with the actual ID of the student to be deleted &ndash;&gt;-->
+<!--     <input type="submit" value="Delete">-->
+
+<!--</form>-->
+
+<form action="/Ssm_EasyCode_Bootsrap_table_war/student/deleteById" method="GET">
+    <input type="text" name="sid" value=""> <!-- Replace 1 with the actual ID of the student to be deleted -->
+    <input type="submit" value="Delete">
+
+</form>
+
+
+<script type="text/javascript" src="./js/jquery.min.js" ></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap-table-zh-CN.min.js"></script>
+<script>
+
+    //  初始化运行
+    $(document).ready(function () {
+        $("#mytable").bootstrapTable({
+            url:"/Ssm_EasyCode_Bootsrap_table_war/student/queryByAll",  //请求地址
+            striped : true, //是否显示行间隔色
+            pageNumber : 1, //初始化加载第一页
+            pagination : true,//是否分页
+            sidePagination : 'client',//server:服务器端分页|client：前端分页
+            pageSize : 5,//单页记录数
+            pageList : [ 5, 10],//可选择单页记录数
+            showRefresh : true,//刷新按钮
+            columns : [ {
+                title : 'id',
+                field : 'sid',
+                sortable : true
+            }, {
+                title : '姓名',
+                field : 'name',
+                sortable : true
+            },{
+                title : '年龄',
+                field : 'age',
+                sortable : true
+            }
+            ]
+        })
+    }
+
+
+    )
+</script>
+
+</body>
+</html>

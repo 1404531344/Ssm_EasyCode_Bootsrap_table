@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fz.dao.StudentDao">
+
+    <resultMap type="com.fz.entity.Student" id="StudentMap">
+        <result property="sid" column="sid" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="StudentMap">
+        select
+          sid, name, age
+        from student
+        where sid = #{sid}
+    </select>
+    <!--查询所有-->
+    <select id="queryByAll" resultMap="StudentMap">
+        select
+            sid, name, age
+        from student
+
+    </select>
+
+<!--    根据名字或者年龄模糊查询-->
+    <select id="queryByLike" resultMap="StudentMap">
+        select
+            sid, name, age
+        from student
+        where name = #{name}
+        or age = #{age}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="StudentMap">
+        select
+          sid, name, age
+        from student
+        <where>
+            <if test="sid != null">
+                and sid = #{sid}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from student
+        <where>
+            <if test="sid != null">
+                and sid = #{sid}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="sid" useGeneratedKeys="true">
+        insert into student(name, age)
+        values (#{name}, #{age})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="sid" useGeneratedKeys="true">
+        insert into student(name, age)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.name}, #{entity.age})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="sid" useGeneratedKeys="true">
+        insert into student(name, age)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.age})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        age = values(age)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update student
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+        </set>
+        where sid = #{sid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from student where sid = #{sid}
+    </delete>
+
+</mapper>
+

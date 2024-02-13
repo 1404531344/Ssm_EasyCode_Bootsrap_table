@@ -1,0 +1,65 @@
+package com.fz.service;
+
+import com.fz.entity.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
+
+/**
+ * (Student)表服务接口
+ *
+ * @author makejava
+ * @since 2024-02-10 15:57:30
+ */
+public interface StudentService {
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param sid 主键
+     * @return 实例对象
+     */
+    Student queryById(Integer sid);
+
+
+//    查询所有
+     List<Student>  queryByAll();
+
+    //模糊查询
+    List<Student> queryByLike(Student student);
+
+    /**
+     * 分页查询
+     *
+     * @param student 筛选条件
+     * @param pageRequest      分页对象
+     * @return 查询结果
+     */
+    Page<Student> queryByPage(Student student, PageRequest pageRequest);
+
+    /**
+     * 新增数据
+     *
+     * @param student 实例对象
+     * @return 实例对象
+     */
+    Student insert(Student student);
+
+    /**
+     * 修改数据
+     *
+     * @param student 实例对象
+     * @return 实例对象
+     */
+    Student update(Student student);
+
+    /**
+     * 通过主键删除数据
+     *
+     * @param sid 主键
+     * @return 是否成功
+     */
+    boolean deleteById(Integer sid);
+
+}
